@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>9.html</title>
+		<script src="/socket.io/socket.io.js"></script>
+
+	</head>
+	<body>
+		<h1>9.html</h1>
+		<input id="typeit"> <input type="button" id="sendit" value="Send Message">
+		<div id="messages"></div>
+		
+		<script>
+
+		var socket = io.connect("/");
+		var messages = document.getElementById("sendit").addEventListener("click",function(evt){
+			var msg = document.getElementById("typeit").value;
+			if(msg){
+				socket.emit("typeit",msg);
+				document.getElementById("messages").innerHTML += msg + "<br>";
+				document.getElementById("typeit").value = "";
+			}
+		})
+
+		socket.on("hello",function(data){
+			console.log(data);
+		});
+
+		socket.on("messages",function(msg){
+			document.getElementById("messages").innerHTML += msg + "<br>";
+		})
+
+		</script>
+
+	</body>
+</html>
